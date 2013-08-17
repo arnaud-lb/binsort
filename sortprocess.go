@@ -3,11 +3,11 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"os"
 	"sort"
-	"github.com/golang/glog"
 )
 
 type SortProcess struct {
@@ -159,6 +159,31 @@ func (p *SortProcess) mergePass(infile *os.File, outfile *os.File, mergeBlockSiz
 	for nthMerge := int64(0); nthMerge < blocks/2; nthMerge++ {
 
 		err := p.mergeBlocks(infile, outfile, nthMerge, mergeBlockSize)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	if blocks%2 == 1 {
+
+		if glog.V(9) {
+			glog.Infof("copying trailing block %v (%v-%v bytes)\n", blocks-1, mergeBlockSize*(blocks-1), mergeBlockSize*blocks)
+		}
+
+		_, err := infile.Seek(mergeBlockSize*(blocks-1), os.SEEK_SET)
+
+		if err != nil {
+			return err
+		}
+
+		_, err = outfile.Seek(mergeBlockSize*(blocks-1), os.SEEK_SET)
+
+		if err != nil {
+			return err
+		}
+
+		_, err = io.Copy(outfile, infile)
 
 		if err != nil {
 			return err
