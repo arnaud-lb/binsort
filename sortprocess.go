@@ -198,7 +198,7 @@ func (p *SortProcess) mergeBlocks(infile *os.File, outfile *os.File, nthMerge, m
 	inputSize := p.BlockSize / 4
 	inputSize -= inputSize % p.RecordSize
 
-	outputSize := p.BlockSize - inputSize
+	outputSize := p.BlockSize - inputSize*2
 	outputSize -= outputSize % p.RecordSize
 
 	blocks := []*mergeableBlock{
