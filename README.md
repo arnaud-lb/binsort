@@ -1,4 +1,3 @@
-
 # binsort
 
 Binsort is a tool to sort files of fixed-length binary records.
@@ -7,7 +6,9 @@ Binsort is a tool to sort files of fixed-length binary records.
 
     go get github.com/arnaud-lb/binsort
 
+This shoul leave a `binsort` binary in `$GOPATH/bin/`
+
 ## Usage
 
-See `binsort --help`
+See `$GOPATH/bin/binsort --help` or the [usage string](https://github.com/arnaud-lb/binsort/blob/master/main.go)
 
