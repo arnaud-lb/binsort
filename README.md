@@ -16,5 +16,33 @@ This should leave a `binsort` binary in `$GOPATH/bin/`
 
 ## Usage
 
-See `$GOPATH/bin/binsort --help` or the [usage string](https://github.com/arnaud-lb/binsort/blob/master/main.go)
+    binsort --size|-s record_size [OPTIONS] infile outfile
+
+### Options
+
+    -s, --size=BYTES
+        Record size in bytes (mandatory).
+
+    -o, --offset=BYTES
+        Ignore the first bytes in record for sorting. Defaults to 0.
+
+    -l, --length=BYTES
+        Use only length bytes for sorting. Defaults to size-offset.
+
+    -b, --block-size=RECORDS
+        Sort this number of records at once. This determines the
+        maximum number of records kept in memory at any time. Defaults
+        to the greatest of 1MB or 4 records. More is faster.
+
+    -T, --temporary-directory=DIR
+        Use DIR as temporary directory instead of the system
+        default. binsort may need to create files as big as the
+        input file.
+
+### Examples
+
+Sort a file composed of 32-bytes records, by comparing only 8 bytes,
+starting at byte 16 in each record:
+
+    binsort --size 32 --offset 16 --length 8 ./input ./output
 
